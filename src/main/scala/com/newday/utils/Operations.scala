@@ -9,9 +9,9 @@ object Operations {
       ratingsDataFrame
         .groupBy("movieId")
         .agg(
-          min("rating").as("rating_min"),
-          max("rating").as("rating_max"),
-          avg("rating").as("rating_avg")),
+          min("rating").as("ratingMin"),
+          max("rating").as("ratingMax"),
+          avg("rating").as("ratingAvg")),
       Seq("movieId"),
       "left")
   }
@@ -23,8 +23,6 @@ object Operations {
     import org.apache.spark.sql.functions.{collect_list, row_number}
     import ratingsDataFrame.sqlContext.implicits._
 
-
-    // chose movie_id as secondary ordering column to keep the function deterministic
     val window = Window.partitionBy("userId").orderBy('rating.desc, 'movieId.desc)
 
     ratingsDataFrame
@@ -32,8 +30,8 @@ object Operations {
       .filter('rank <= 3)
       .join(moviesDataFrame, Seq("movieId"))
       .groupBy("userId")
-      .agg(collect_list("title").as("favourite_movies"))
-      .select("userId", "favourite_movies")
+      .agg(collect_list("title").as("favouriteMovies"))
+      .select("userId", "favouriteMovies")
   }
 
 }

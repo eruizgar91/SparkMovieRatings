@@ -8,6 +8,4 @@ class DriverTest extends FlatSpec with Matchers with BeforeAndAfterEach{
     val driver = Driver
     a[IllegalArgumentException] should be thrownBy driver.main(Array("",""))
   }
-
-
 }
