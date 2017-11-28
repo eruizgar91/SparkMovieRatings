@@ -9,7 +9,7 @@ object Driver extends LazyLogging{
 
     require(args.length == 3,
       "You should provide the movies.dat location,the ratings.dat location and the output path")
-
+    Context.init()
     Try{Job.run(args(0), args(1), args(2))} match {
       case Success(_) => logger.info("Success starting the job")
       case Failure(ex) => logger.error(s"The job failed starting: [${ex.getMessage}]")
